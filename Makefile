@@ -1,14 +1,18 @@
 CXX = g++
 CXXFLAGS = -O3 -Wall -pthread -march=armv8-a -mtune=cortex-a53
-LDFLAGS = -lasound -lfftw3f -lm -latomic
+LIBS = -lasound -lfftw3f -lm -latomic
 
-TARGET = mvdr_beamformer
-SRCS = main.cpp
+# Define all targets here
+all: mvdr_beamformer mvdr_file
 
-all: $(TARGET)
+# Target 1: The Live Streamer (Pipe Mode)
+mvdr_beamformer: main.cpp mvdr_neon.h
+	$(CXX) $(CXXFLAGS) -o mvdr_beamformer main.cpp $(LIBS)
 
-$(TARGET): $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS) $(LDFLAGS)
+# Target 2: The File Processor (Offline Test)
+mvdr_file: main_file.cpp mvdr_neon.h
+	$(CXX) $(CXXFLAGS) -o mvdr_file main_file.cpp $(LIBS)
 
+# Cleanup
 clean:
-	rm -f $(TARGET)
+	rm -f mvdr_beamformer mvdr_file
