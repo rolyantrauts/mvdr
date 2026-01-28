@@ -1,5 +1,3 @@
-Here is the full content formatted as a raw file block. You can click "Copy" and paste this directly into your GitHub README.md file editor.Markdown# MVDR Beamformer for Raspberry Pi
-
 A lightweight, high-performance real-time **Minimum Variance Distortionless Response (MVDR)** beamformer written in C++ for the Raspberry Pi.
 
 This project captures stereo audio from a 2-microphone array (e.g., ReSpeaker 2-Mic HAT), performs noise cancellation and directional beamforming, and outputs the processed audio to a **virtual loopback device**. This allows other applications (Voice Assistants, Recorders, Alexa/VoiceAI) to "hear" the cleaned audio as if it were a physical microphone.
