@@ -47,14 +47,15 @@ aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
 ```
 Listening to the OutputTo verify it is working, open a second terminal and listen to the other end of the virtual cable (Loopback Side 1):Bash# Pipe the Virtual Mic to your Physical Speakers/HDMI (Card 0)
 `arecord -D plughw:Loopback,1,0 -c 1 -r 16000 -f S16_LE | aplay -D plughw:0,0`
-4. Automatic Startup (Systemd Service)To make the beamformer run automatically in the background when the Pi boots:1. Create a Wrapper ScriptCreate a file named start_beamformer.sh in your project folder:Bash#!/bin/bash
-# Load driver just in case
+4. Automatic Startup (Systemd Service)To make the beamformer run automatically in the background when the Pi boots:1. Create a Wrapper ScriptCreate a file named start_beamformer.sh in your project folder:Bash#!/bin/bash  
+
+Load driver just in case
 ```
 modprobe snd-aloop
 sleep 2
 ```
 
-# Run Pipeline (Adjust -i hw:X,Y to match your mic)
+Run Pipeline (Adjust -i hw:X,Y to match your mic)
 ```
 /home/pi/mvdr_beamformer/mvdr_beamformer -i hw:1,0 -d 0.058 -a 90 | \
 aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
