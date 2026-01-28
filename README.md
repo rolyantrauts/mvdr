@@ -2,7 +2,7 @@ A lightweight, high-performance real-time **Minimum Variance Distortionless Resp
 
 This project captures stereo audio from a 2-microphone array (e.g., ReSpeaker 2-Mic HAT), performs noise cancellation and directional beamforming, and outputs the processed audio to a **virtual loopback device**. This allows other applications (Voice Assistants, Recorders, Alexa/VoiceAI) to "hear" the cleaned audio as if it were a physical microphone.  
 The Respeaker is a slave device that uses the Pi to provide the clock than be a master and supply its own, just been fighting for a day and a half to workout how to work with the clockdrift of the pi vs set rates provided by alsa.
-Use a usb device and someone just hack the code to use ALSA than picking up from stdin to bypass clockdrift and use aplay to fix things.
+Use a usb device and someone just hack the code to use ALSA than picking up from stdin to bypass clockdrift and using aplay to fix things.
 
 
 ## Features
