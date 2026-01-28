@@ -77,7 +77,11 @@ RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
-(Note: Change User=pi and paths to match your username/setup)3. Enable and StartBashsudo systemctl daemon-reload
+```
+(Note: Change User=pi and paths to match your username/setup)  
+3. Enable and Start
+```
+sudo systemctl daemon-reload  
 sudo systemctl enable beamformer.service
 sudo systemctl start beamformer.service
 ```
