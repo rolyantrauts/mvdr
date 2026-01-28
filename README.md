@@ -121,11 +121,11 @@ The ESP32-S3's DMA engine automatically "zips" these two streams together into a
 
 Why INMP441? They are cheap, have 24-bit precision, and handle the "L/R Select" pin natively are available and are cheap so you can set your own geometry.
 
-The Wiring Map
-This setup treats the array as two "Stereo Pairs" sharing a heartbeat.
-Signal,ESP32-S3 Pin (Example),Mic Pair A (1 & 2),Mic Pair B (3 & 4),Note
-BCLK,GPIO 4,SCK,SCK,Shared Clock
-WS,GPIO 5,WS,WS,Shared Clock
-Data 0,GPIO 6,SD,-,Input Line 0
-Data 1,GPIO 7,-,SD,Input Line 1
-L/R,-,"Mic1=GND, Mic2=VDD","Mic3=GND, Mic4=VDD",Selects Left/Right slot
+The Wiring Map  
+This setup treats the array as two "Stereo Pairs" sharing a heartbeat.  
+Signal,ESP32-S3 Pin (Example),Mic Pair A (1 & 2),Mic Pair B (3 & 4),Note  
+BCLK,GPIO 4,SCK,SCK,Shared Clock  
+WS,GPIO 5,WS,WS,Shared Clock  
+Data 0,GPIO 6,SD,-,Input Line 0  
+Data 1,GPIO 7,-,SD,Input Line 1  
+L/R,-,"Mic1=GND, Mic2=VDD","Mic3=GND, Mic4=VDD",Selects Left/Right slot  
