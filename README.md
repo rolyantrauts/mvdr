@@ -51,12 +51,17 @@ Listening to the OutputTo verify it is working, open a second terminal and liste
 ```
 modprobe snd-aloop
 sleep 2
+```
 
 # Run Pipeline (Adjust -i hw:X,Y to match your mic)
+```
 /home/pi/mvdr_beamformer/mvdr_beamformer -i hw:1,0 -d 0.058 -a 90 | \
 aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
-Make it executable:Bashchmod +x start_beamformer.sh
-2. Create the Service FileCreate /etc/systemd/system/beamformer.service:Ini, TOML[Unit]
+```
+Make it executable: `chmod +x start_beamformer.sh`
+2. Create the Service File
+Create /etc/systemd/system/beamformer.service:Ini, TOML[Unit]
+```
 Description=MVDR Beamformer Service
 After=sound.target
 
