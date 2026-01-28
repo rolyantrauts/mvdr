@@ -98,3 +98,7 @@ sudo systemctl start beamformer.service
 Your -d (spacing) might be slightly off. Try adjusting it in small steps (e.g., 0.055, 0.060) until the voice sounds full.  
 Distortion/Clipping? Check your hardware gain in alsamixer (keep it around 70-80%) or lower the software gain with -g 0.8.  
 Clock Drift/Clicks? Ensure you are using the pipe method (| aplay) described above, as aplay manages buffer underruns better than direct ALSA writing on the Pi Zero.
+
+
+## 2. Testing file based to emulate zero clock drift
+`python3 test_offline_fine.py`
