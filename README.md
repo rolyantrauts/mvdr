@@ -33,8 +33,14 @@ Verify:Run `aplay -l` and look for a card named Loopback.
 
 ## 2. CompilationClone this repository (or copy the source files):Bashgit clone <your-repo-url>
 `cd mvdr_beamformer`
-Build the project:The provided Makefile links against libasound and libfftw3f.Bashmake clean && make
-This produces an executable named mvdr_beamformer.3. Running the Beamformer (The "Magic Pipe")Due to clock drift issues common with budget hardware (like the ReSpeaker HAT), this application outputs Raw Audio Data to STDOUT. We pipe this data directly into aplay, which handles the buffering and synchronization robustly.Manual TestRun this command to start the beamformer and pipe the output to the Loopback device (Side 0).
+Build the project:  
+The provided Makefile links against libasound and libfftw3f. `make clean && make`  
+This produces an executable named mvdr_beamformer.  
+3. Running the Beamformer (The "Magic Pipe")  
+Due to clock drift issues common with budget hardware (like the ReSpeaker HAT), this application outputs Raw Audio Data to STDOUT.   
+We pipe this data directly into aplay, which handles the buffering and synchronization robustly.  
+Manual TestRun this command to start the beamformer and pipe the output to the Loopback device (Side 0).  
+
 ```
 # -i hw:1,0      : Your Physical Mic (Check 'arecord -l')
 # -d 0.058       : Mic spacing in meters (58mm for ReSpeaker)
