@@ -83,8 +83,45 @@ aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
 
 Listening to the Output  
 To verify it is working, open a second terminal and listen to the other end of the virtual cable (Loopback Side 1):  
-# Pipe the Virtual Mic to your Physical Speakers/HDMI (Card 0)
-`arecord -D plughw:Loopback,1,0 -c 1 -r 16000 -f S16_LE | aplay -D plughw:0,0`
+
+`# Pipe the Virtual Mic (Loopback,1,0) to your Physical Speakers (Card 0)
+arecord -D plughw:Loopback,1,0 -c 1 -r 16000 -f S16_LE | aplay -D plughw:0,0`  
+
+Inter-Process Communication (IPC) & Control
+The C++ beamformer listens on UDP Port 5555 for commands. This allows external programs (like a Python Wakeword script) to control the beam direction in real-time without stopping the audio stream.
+
+Key Features:
+Automatic Tracking (Default): The beamformer continuously scans using GCC-PHAT and updates the beam to follow the loudest sound source.
+
+"Time Machine" Locking: When you send the LOCK command, the engine does not just lock to the current millisecond. It scans its internal history buffer (set by -f) to find the weighted average angle of the speech that just happened. This fixes latency issues where the wakeword detection happens after the user has stopped speaking.
+
+UDP Commands:
+RESET : Clears any locks and resumes Automatic Tracking mode.
+
+LOCK : Locks the beam to the best angle found in the history buffer (used upon Wakeword detection).
+
+SET [angle] : Manually forces the beam to a specific angle (e.g., SET 45).
+
+Testing IPC (test_ipc.py)
+A simple Python script is included to demonstrate how to control the beamformer. It simulates a wakeword event sequence.
+
+```
+# Open a new terminal while the beamformer is running
+python3 test_ipc.py
+```
+test_ipc.py Workflow:
+
+Sends RESET to ensure Auto Mode.
+
+Waits 5 seconds (Simulating user talking).
+
+Sends LOCK (Simulating Wakeword trigger).
+
+Check the beamformer terminal: You will see it lock to the dominant angle from the last ~1.5s.
+
+Waits, then sends SET 45 to demonstrate manual override.
+
+
 4. Automatic Startup (Systemd Service)To make the beamformer run automatically in the background when the Pi boots:1. Create a Wrapper ScriptCreate a file named start_beamformer.sh in your project folder:Bash#!/bin/bash  
 
 Load driver just in case
