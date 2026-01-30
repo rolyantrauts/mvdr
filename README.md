@@ -66,12 +66,20 @@ This runs the beamformer and plays the result directly to your speakers (HDMI/He
 
 # Run with 21mm spacing, 5x gain, and verbose DOA logs
 
-./mvdr_beamformer -i plughw:1,0 -d 0.021 -g 5.0 -v | \
+./mvdr_beamformer -i plughw:1,0 -d 0.021 -g 1.0 -v | \
 aplay -f S16_LE -r 16000 -c 1
 ```
 
 Example: Production Pipeline (Virtual Cable)
 To send the clean audio to another program (like a Wakeword engine), use the ALSA Loopback module.
+```
+# 1. Load Loopback Module
+sudo modprobe snd-aloop
+
+# 2. Run Beamformer -> Loopback Side 0
+./mvdr_beamformer -i plughw:1,0 -d 0.021 -g 1.0 | \
+aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
+```
 
 Listening to the Output  
 To verify it is working, open a second terminal and listen to the other end of the virtual cable (Loopback Side 1):  
