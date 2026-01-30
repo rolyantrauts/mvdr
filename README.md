@@ -27,7 +27,9 @@ Update your system and install the required build tools and audio libraries (ALS
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential git libasound2-dev libfftw3-dev sox alsa-utils
 ```
-Enable Loopback Kernel ModuleThe "Virtual Cable" that connects the beamformer to your voice assistant is the kernel's snd-aloop module.Enable it temporarily (to test):Bashsudo modprobe snd-aloop
+Enable Loopback Kernel Module  
+The "Virtual Cable" that connects the beamformer to your voice assistant is the kernel's snd-aloop module.  
+Enable it temporarily (to test):`sudo modprobe snd-aloop`
 Enable it permanently (on boot):`echo "snd-aloop" | sudo tee -a /etc/modules`
 Verify:Run `aplay -l` and look for a card named Loopback.
 
