@@ -66,7 +66,7 @@ To use it effectively, you typically pipe the output to `aplay` (to hear it) or 
 #### **Example: Direct Playback (Testing)**
 This runs the beamformer and plays the result directly to your speakers (HDMI/Headphones).
 
-# Run with 21mm spacing, 5x gain, and verbose DOA logs
+# Run with 21mm spacing, 1x gain, and verbose DOA logs
 
 ./mvdr_beamformer -i plughw:1,0 -d 0.021 -g 1.0 -v | \
 aplay -f S16_LE -r 16000 -c 1
