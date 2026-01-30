@@ -158,13 +158,6 @@ sudo systemctl enable beamformer.service
 sudo systemctl start beamformer.service
 ```
 4. Status Check `sudo systemctl status beamformer.service`  
-5. Usage Arguments  
-   -i [dev]Input ALSA Device (e.g., hw:1,0)plughw:1,0  
-   -d [meters]Microphone spacing in meters0.058  
-   -a [degrees]Steering Angle (90=Center, 0=Left, 180=Right)90.0  
-   -g [float]Digital Gain Multiplier1.0  
-   -p Pass-through Mode (Bypass processing for debugging)Off  
-   -h Show Help Menu-Example:Bash./mvdr_beamformer -i hw:2,0 -d 0.075 -a 45 -g 1.5 | aplay ...  
    
 7. Tuning TipsHollow Sound?  
 Your -d (spacing) might be slightly off. Try adjusting it in small steps (e.g., 0.055, 0.060) until the voice sounds full.  
