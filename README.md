@@ -39,19 +39,43 @@ This produces an executable named mvdr_beamformer.
 3. Running the Beamformer (The "Magic Pipe")  
 Due to clock drift issues common with budget hardware (like the ReSpeaker HAT), this application outputs Raw Audio Data to STDOUT.   
 We pipe this data directly into aplay, which handles the buffering and synchronization robustly.  
-Manual TestRun this command to start the beamformer and pipe the output to the Loopback device (Side 0).  
+Manual Test
+Run this command to start the beamformer and pipe the output to the Loopback device (Side 0).  
+```
+### Running the Beamformer (Real-time Pipeline)
 
+The beamformer reads from your microphone (ALSA Input), processes the audio using NEON-optimized MVDR + GCC-PHAT DOA, and writes the clean, beamformed audio to `stdout`.
+
+To use it effectively, you typically pipe the output to `aplay` (to hear it) or to an ALSA Loopback device (to feed it into a voice assistant like rhasspy or ovos).
+
+#### **Command Line Parameters**
+
+* `-i [device]` : Input ALSA capture device (Default: `plughw:1,0`). Use `arecord -l` to find your mic.
+* `-d [meters]` : Microphone spacing in meters.
+    * **0.058** (58mm) for ReSpeaker 2-Mics.
+    * **0.021** (21mm) for custom Endfire builds.
+* `-g [gain]` : Digital output gain (Default: `1.0`). Useful if the MVDR math makes the audio too quiet.
+* `-f [frames]` : DOA History Buffer size (Default: `100`).
+    * Controls how many past frames are averaged for the "Smart Lock".
+    * `100` frames ≈ 1.6 seconds of history.
+* `-v` : Verbose DOA mode. Prints the current estimated angle to `stderr`.
+* `-p` : Pass-through mode. Bypasses all math and sends raw Mic 1 audio to output (hardware debug).
+
+#### **Example: Direct Playback (Testing)**
+This runs the beamformer and plays the result directly to your speakers (HDMI/Headphones).
+
+# Run with 21mm spacing, 5x gain, and verbose DOA logs
+
+./mvdr_beamformer -i plughw:1,0 -d 0.021 -g 5.0 -v | \
+aplay -f S16_LE -r 16000 -c 1
 ```
-# -i hw:1,0      : Your Physical Mic (Check 'arecord -l')
-# -d 0.058       : Mic spacing in meters (58mm for ReSpeaker)
-# -a 90          : Beam Angle (90 = Center)
-# | aplay ...    : The player that writes to the virtual cable
-```
-```
-./mvdr_beamformer -i hw:1,0 -d 0.058 -a 90 | \
-aplay -D plughw:Loopback,0,0 -c 1 -r 16000 -f S16_LE -q
-```
-Listening to the OutputTo verify it is working, open a second terminal and listen to the other end of the virtual cable (Loopback Side 1):Bash# Pipe the Virtual Mic to your Physical Speakers/HDMI (Card 0)
+
+Example: Production Pipeline (Virtual Cable)
+To send the clean audio to another program (like a Wakeword engine), use the ALSA Loopback module.
+
+Listening to the Output  
+To verify it is working, open a second terminal and listen to the other end of the virtual cable (Loopback Side 1):  
+# Pipe the Virtual Mic to your Physical Speakers/HDMI (Card 0)
 `arecord -D plughw:Loopback,1,0 -c 1 -r 16000 -f S16_LE | aplay -D plughw:0,0`
 4. Automatic Startup (Systemd Service)To make the beamformer run automatically in the background when the Pi boots:1. Create a Wrapper ScriptCreate a file named start_beamformer.sh in your project folder:Bash#!/bin/bash  
 
